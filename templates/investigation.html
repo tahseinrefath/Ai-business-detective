@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Investigation · AI Business Detective{% endblock %}
+{% block content %}
+<div class="page-head"><h2>Case <span class="grad">investigation</span></h2><p>Ask a question or pick two months. Code calculates the numbers; the explanation only describes them.</p></div>
+<div id="empty" class="card empty" hidden><div class="ico">🕵️</div><h3>No dataset loaded</h3><p class="muted">Load a dataset first.</p><a class="btn" href="/">Go to upload</a></div>
+<div id="content" hidden>
+  <div class="card glow">
+    <div class="ask"><input id="q" value="Why did profit decrease this month?" maxlength="300" aria-label="Your question"><button class="btn" id="go">Investigate</button></div>
+    <div class="row" id="chips">
+      <button class="chip">Why did profit decrease this month?</button><button class="chip">Why did sales change?</button>
+      <button class="chip">Which region caused the change?</button><button class="chip">Which product is performing poorly?</button>
+    </div>
+    <div class="row" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--line)">
+      <label class="muted" style="font-size:12px;font-weight:700">COMPARE <select id="selPrev" style="margin:0 6px"></select> → <select id="selCurr" style="margin-left:6px"></select></label>
+      <div class="seg" id="metricSeg"><button data-m="auto" class="on">Auto</button><button data-m="profit">Profit</button><button data-m="sales">Sales</button></div>
+    </div>
+  </div>
+  <div id="result" style="margin-top:18px"></div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/investigation.js') }}"></script>{% endblock %}

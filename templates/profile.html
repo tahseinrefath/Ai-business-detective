@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}My profile · AI Business Detective{% endblock %}
+{% block content %}
+<div class="page-head"><h2>My <span class="grad">profile</span></h2><p>Manage your details, picture and appearance.</p></div>
+<div class="prof">
+  <!-- left: identity -->
+  <div>
+    <div class="card prof-card fade">
+      <label class="avatar-drop" id="drop" title="Click or drop an image">
+        <span class="avatar xl" id="bigAvatar"></span><span class="cam">📷</span>
+        <input type="file" id="avatarFile" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+      </label>
+      <h3 id="pName" style="margin:0;font-size:22px"></h3>
+      <div class="muted" id="pRole" style="margin-top:2px"></div>
+      <div class="muted" id="pMeta" style="font-size:13px;margin-top:4px"></div>
+      <div class="row" style="justify-content:center;margin-top:16px"><button class="btn sm" id="pickBtn">⬆ Upload photo</button><button class="btn ghost sm" id="rmBtn" hidden>Remove</button></div>
+      <div class="hint2" style="margin-top:10px">PNG, JPG, WEBP or GIF · up to 3 MB · cropped to a square</div>
+    </div>
+    <div class="card fade" style="margin-top:18px">
+      <div class="between"><b id="rankTitle">Rookie</b><span class="tag low" id="rankLvl">Lv 1</span></div>
+      <div class="xpbar"><i id="xpFill" style="width:0"></i></div><div class="muted" style="font-size:12.5px" id="xpTxt"></div>
+      <div class="badges" id="badges"></div>
+    </div>
+  </div>
+
+  <!-- right: forms -->
+  <div style="display:grid;gap:18px">
+    <div class="card fade"><h3 style="margin:0 0 4px">Personal details</h3><p class="muted" style="margin:0 0 18px;font-size:14px">Shown only to you inside this app.</p>
+      <div id="profErr" class="err" hidden role="alert"></div>
+      <form id="profForm" class="form2" novalidate>
+        <div class="field"><label for="f_name">Full name</label><input id="f_name" maxlength="60" required></div>
+        <div class="field"><label for="f_email">Email</label><input id="f_email" disabled title="Email can't be changed"></div>
+        <div class="field"><label for="f_job">Job title</label><input id="f_job" maxlength="80" placeholder="e.g. Data Analyst"></div>
+        <div class="field"><label for="f_company">Company / college</label><input id="f_company" maxlength="80" placeholder="e.g. NPRO Technologies"></div>
+        <div class="field full"><label for="f_loc">Location</label><input id="f_loc" maxlength="80" placeholder="e.g. Bengaluru, India"></div>
+        <div class="field full"><label for="f_bio">About me</label><textarea id="f_bio" maxlength="300" placeholder="A line or two about you…"></textarea><div class="hint2" id="bioCount">0 / 300</div></div>
+        <div class="full row"><button class="btn" id="saveBtn" type="submit">💾 Save changes</button></div>
+      </form>
+    </div>
+
+    <div class="card fade"><h3 style="margin:0 0 14px">Change password</h3>
+      <div id="pwErr" class="err" hidden role="alert"></div>
+      <form id="pwForm" class="form2" novalidate>
+        <div class="field full"><label for="pw_cur">Current password</label><input id="pw_cur" type="password" autocomplete="current-password"></div>
+        <div class="field"><label for="pw_new">New password</label><input id="pw_new" type="password" autocomplete="new-password" maxlength="128"></div>
+        <div class="field"><label for="pw_new2">Confirm new password</label><input id="pw_new2" type="password" autocomplete="new-password" maxlength="128"></div>
+        <div class="full"><button class="btn ghost" type="submit">🔑 Update password</button></div>
+      </form>
+    </div>
+
+    <div class="card danger-zone fade"><h3 style="margin:0 0 4px;color:var(--bad)">Danger zone</h3>
+      <p class="muted" style="margin:0 0 14px;font-size:14px">Deleting your account permanently removes your profile, picture, datasets, reports, goals and notes. This cannot be undone.</p>
+      <button class="btn ghost danger" id="delBtn">🗑 Delete my account</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="delModal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
+  <h3 id="dmTitle" style="margin:0 0 8px">Delete your account?</h3><p class="muted" style="margin:0 0 16px">Type your password to confirm. Everything will be erased.</p>
+  <div id="delErr" class="err" hidden></div>
+  <div class="field"><label for="del_pw">Password</label><input id="del_pw" type="password" autocomplete="current-password"></div>
+  <div class="row" style="justify-content:flex-end"><button class="btn ghost" id="delCancel">Cancel</button><button class="btn danger" id="delGo">Delete forever</button></div>
+</div></div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/profile.js') }}"></script>{% endblock %}

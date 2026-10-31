@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Reports · AI Business Detective{% endblock %}
+{% block content %}
+<div class="page-head"><h2>Automated <span class="grad">reports</span></h2><p>Generate a shareable investigation report. Open it, then use your browser's Print → Save as PDF if you need a PDF.</p></div>
+<div class="card" style="margin-top:18px"><table class="t" id="tbl"><tr><td>Loading…</td></tr></table></div>
+{% endblock %}
+{% block scripts %}
+<script>
+(async () => {
+  const rows = await api('/api/datasets'); const cur = getDataset(); const t = document.getElementById('tbl');
+  if (!rows.length) { t.innerHTML = '<tr><td class="muted">No datasets yet. <a href="/" class="grad"><b>Upload one →</b></a></td></tr>'; return; }
+  t.innerHTML = '<tr><th>Dataset</th><th>Rows</th><th>Quality</th><th>Uploaded</th><th></th></tr>' + rows.map(r => `
+    <tr><td><b>${esc(r.filename)}</b> ${r.id===cur?'<span class="tag low">active</span>':''}</td><td>${r.row_count}</td>
+    <td>${r.quality.quality_score}/100</td><td class="muted">${esc(r.upload_date.replace('T',' '))}</td>
+    <td class="row"><button class="btn sm" data-gen="${r.id}">⚡ Generate</button>
+    <a class="btn sm ghost" data-view="${r.id}" href="/api/report/${r.id}" target="_blank" hidden>👁 View</a>
+    <a class="btn sm ghost" data-dl="${r.id}" href="/api/report/${r.id}?download=1" hidden>⬇ Download</a></td></tr>`).join('');
+  for (const r of rows) { const ok = (await fetch('/api/report/'+r.id)).ok; if (ok) showLinks(r.id); }
+  t.addEventListener('click', async e => { const id = e.target.dataset.gen; if (!id) return;
+    e.target.disabled = true; e.target.textContent = 'Working…';
+    try { await api('/api/report/'+id, {method:'POST', body:{metric:'profit'}}); showLinks(id); toast('Report ready ✅'); }
+    catch(err){ toast(err.message, true); } e.target.disabled = false; e.target.textContent = '⚡ Regenerate'; });
+  function showLinks(id){ t.querySelectorAll(`[data-view="${id}"],[data-dl="${id}"]`).forEach(a=>a.hidden=false); }
+})();
+</script>
+{% endblock %}

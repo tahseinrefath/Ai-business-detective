@@ -1,0 +1,17 @@
+Flask>=3.0
+pandas>=2.1
+numpy>=1.26
+plotly>=5.18
+openpyxl>=3.1
+python-dotenv>=1.0
+Pillow>=10.0
+scikit-learn>=1.4
+pytest>=8.0
+# File formats: Excel (.xls/.ods), PDF tables, Power BI (.pbix)
+xlrd>=2.0
+odfpy>=1.4
+pdfplumber>=0.11
+pbixray>=0.3
+# Optional (only needed if you enable PostgreSQL / the LLM explanation layer)
+psycopg[binary]>=3.1
+anthropic>=0.40

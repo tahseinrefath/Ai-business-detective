@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}AI Business Detective — find what moved your numbers{% endblock %}</title>
+  <meta name="description" content="Upload sales data and find out which products and regions drove a change, with evidence-based explanations.">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="theme-color" content="#050507">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050507%22/><circle cx=%2227%22 cy=%2727%22 r=%2216%22 fill=%22none%22 stroke=%22%23c9cdd3%22 stroke-width=%226%22/><path d=%22M40 40l16 16%22 stroke=%22%23ff1a40%22 stroke-width=%227%22 stroke-linecap=%22round%22/></svg>">
+  <link rel="preload" href="{{ url_for('static', filename='fonts/inter-latin-wght-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ url_for('static', filename='fonts/space-grotesk-latin-wght-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% if page in ('dashboard','investigation','lab') %}<script src="{{ url_for('static', filename='vendor/plotly.min.js') }}" charset="utf-8"></script>{% endif %}
+</head>
+<body data-uid="{{ me.id if me else 0 }}" data-authed="{{ 1 if me else 0 }}">
+  <canvas id="bgnet" aria-hidden="true"></canvas>
+  <nav class="nav"><div class="wrap">
+    <a class="brand" href="/" aria-label="AI Business Detective home">
+      <svg viewBox="0 0 64 64" width="32" height="32"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--a1)"/><stop offset=".6" stop-color="var(--a2)"/><stop offset="1" stop-color="var(--a3)"/></linearGradient></defs>
+        <circle cx="27" cy="27" r="17" fill="none" stroke="url(#lg)" stroke-width="6"/><path d="M40 40l16 16" stroke="url(#lg)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M18 31l6-6 5 4 7-8" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>AI Business <b class="grad">Detective</b></span></a>
+    {% if me %}
+    <div class="links">
+      <a href="/" class="{{ 'on' if page=='home' }}">Home</a>
+      <a href="/dashboard" class="{{ 'on' if page=='dashboard' }}">Dashboard</a>
+      <a href="/investigation" class="{{ 'on' if page=='investigation' }}">Investigate</a>
+      <a href="/lab" class="{{ 'on' if page=='lab' }}">Lab</a>
+      <a href="/data" class="{{ 'on' if page=='data' }}">Data</a>
+      <a href="/reports" class="{{ 'on' if page=='reports' }}">Reports</a>
+    </div>
+    {% endif %}
+    <div class="badge-ds" id="dsBadge">No dataset</div>
+    <div class="nav-right" {% if not me %}style="margin-left:auto"{% endif %}>
+      <button class="nav-search" id="palBtn" aria-label="Open command menu">⌘ <span>Quick actions</span> <span class="kbd">Ctrl K</span></button>
+      {% if me %}
+      <a class="lvl" href="/profile" title="Your detective rank">Lv <b>{{ me.level }}</b> · {{ me.title }}</a>
+      <div class="usermenu">
+        <button id="userBtn" aria-label="Account menu" aria-haspopup="true">
+          <span class="avatar">{% if me.has_avatar %}<img id="navAvatar" src="/avatar/me?v={{ me.avatar_v }}" alt="">{% else %}<span id="navInitials">{{ me.initials }}</span>{% endif %}</span></button>
+        <div class="menu" id="userMenu" role="menu">
+          <div class="who"><b>{{ me.name }}</b><span>{{ me.email }}</span></div>
+          <a href="/profile">👤 My profile</a><a href="/lab">🧪 What-if lab</a><a href="/reports">📄 My reports</a>
+          <button id="logoutBtn">🚪 Sign out</button>
+        </div>
+      </div>
+      {% else %}
+      <a class="btn ghost sm" href="/login">Sign in</a><a class="btn sm" href="/register">Get started</a>
+      {% endif %}
+    </div>
+  </div></nav>
+  <main class="wrap">{% block content %}{% endblock %}</main>
+  <footer class="wrap">Turning business data into actionable insights.<br>Contributors show <b>where</b> a change happened — not proof of <b>why</b>. Sample data is illustrative only.</footer>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

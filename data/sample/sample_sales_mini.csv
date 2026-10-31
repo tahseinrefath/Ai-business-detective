@@ -1,0 +1,8 @@
+order_date,product,category,region,quantity,sales,profit
+2026-09-01,Laptop,Electronics,South,2,100000,10000
+2026-09-02,Mobile,Electronics,North,3,60000,9000
+2026-09-03,Headphones,Accessories,West,5,10000,2000
+2026-09-04,Laptop,Electronics,South,1,50000,5000
+2026-10-01,Laptop,Electronics,South,1,50000,3000
+2026-10-02,Mobile,Electronics,North,3,60000,8500
+2026-10-03,Headphones,Accessories,West,4,8000,1500
