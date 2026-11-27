@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · AI Business Detective{% endblock %}
+{% block content %}
+<div class="page-head between"><div><h2>Performance <span class="grad">dashboard</span></h2><p id="sub">Loading…</p></div>
+  <div class="row"><a class="btn ghost sm" id="expCsv" href="#">⬇ Export cleaned CSV</a><a class="btn sm" href="/investigation">🔍 Investigate changes</a></div></div>
+<div id="empty" class="card empty" hidden><div class="ico">🕵️</div><h3>No dataset loaded</h3><p class="muted">Upload a file or open the demo case to see your dashboard.</p><a class="btn" href="/">Go to upload</a></div>
+<div id="content" hidden>
+  <div class="card filters" id="filters">
+    <label>Region<select id="fRegion"><option>All</option></select></label>
+    <label>Category<select id="fCategory"><option>All</option></select></label>
+    <label>Product<select id="fProduct"><option>All</option></select></label>
+    <label>From<input type="date" id="fStart"></label><label>To<input type="date" id="fEnd"></label>
+    <button class="btn ghost sm" id="fReset">↺ Reset</button><span class="muted" id="fCount" style="margin-left:auto;font-size:13px"></span>
+  </div>
+  <div class="pulse" id="pulse"></div>
+  <div class="card glow" id="healthCard" style="margin-top:18px"><div class="between"><h4 style="margin:0;font-size:16px;font-family:var(--display)">Business health score</h4><span class="muted" style="font-size:12.5px">Transparent formula · not an industry standard</span></div>
+    <div class="gauge" id="healthBody" style="margin-top:14px"></div></div>
+  <div class="grid g4" id="kpis" style="margin-top:18px"></div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card chart"><h4>Monthly sales, profit & margin</h4><div class="hint">Bars: totals · line: profit margin %</div><div id="cMonthly"></div></div>
+    <div class="card chart"><h4>Daily sales trend</h4><div class="hint">Faint area is each day; bright line is the 7-day average.</div><div id="cDaily"></div></div>
+    <div class="card chart"><div class="between"><h4>Product performance</h4><div class="seg" data-target="products"><button data-m="profit" class="on">Profit</button><button data-m="sales">Sales</button></div></div><div id="cProducts"></div></div>
+    <div class="card chart"><div class="between"><h4>Regional performance</h4><div class="seg" data-target="regions"><button data-m="profit" class="on">Profit</button><button data-m="sales">Sales</button></div></div><div id="cRegions"></div></div>
+    <div class="card chart"><h4>Profit by region × product</h4><div class="hint">Darker cells earn more profit. Spot weak combinations fast.</div><div id="cHeat"></div></div>
+    <div class="card chart"><h4>Category share of profit</h4><div class="hint">Hover a slice for exact figures.</div><div id="cCat"></div></div>
+    <div class="card chart" id="discCard"><h4>Margin by discount level</h4><div class="hint">Do bigger discounts leave less profit per rupee sold?</div><div id="cDisc"></div></div>
+    <div class="card chart" id="fcCard"><h4>Next-month trend projection</h4><div class="hint">A straight-line extension of past months.</div><div id="fcBody"></div></div>
+  </div>
+  <div class="card" style="margin-top:18px" id="quality"></div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>{% endblock %}

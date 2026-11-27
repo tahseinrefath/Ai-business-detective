@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Lab · AI Business Detective{% endblock %}
+{% block content %}
+<div class="page-head"><h2>The <span class="grad">Lab</span></h2><p>Test "what if?" scenarios, track monthly goals and keep case notes — all private to you.</p></div>
+<div id="empty" class="card empty" hidden><div class="ico">🧪</div><h3>No dataset loaded</h3><p class="muted">Load a dataset first, then come back to experiment.</p><a class="btn" href="/">Go to upload</a></div>
+<div class="lab" id="content" hidden>
+  <div class="card glow fade">
+    <div class="between"><h3 style="margin:0">What-if simulator</h3><span class="tag medium" id="simMonth"></span></div>
+    <p class="muted" style="margin:6px 0 0;font-size:14px">Pick one product-region segment and nudge orders, price or margin to see the profit impact.</p>
+    <div class="field" style="margin-top:16px"><label for="segSel">Segment</label><select id="segSel"></select></div>
+    <div class="slider-row"><div class="top"><span>Orders</span><output id="oOrd">0%</output></div><input type="range" id="sOrd" min="-80" max="100" step="1" value="0" aria-label="Change in orders, percent"></div>
+    <div class="slider-row"><div class="top"><span>Average price per order</span><output id="oPrice">0%</output></div><input type="range" id="sPrice" min="-30" max="30" step="1" value="0" aria-label="Change in price, percent"></div>
+    <div class="slider-row"><div class="top"><span>Profit margin</span><output id="oMar">0 pts</output></div><input type="range" id="sMar" min="-15" max="15" step="0.5" value="0" aria-label="Change in margin, percentage points"></div>
+    <div class="row" style="margin-bottom:6px"><button class="btn ghost sm" id="restoreBtn">↺ Match last month's orders</button><button class="btn ghost sm" id="resetBtn">Reset sliders</button></div>
+    <div class="result" id="simOut"></div>
+    <div id="cSim" style="margin-top:8px"></div>
+    <div class="note">Illustration, not a forecast: it assumes the segment's average order value and margin stay the same unless you change them, and that nothing else moves.</div>
+  </div>
+
+  <div style="display:grid;gap:18px">
+    <div class="card fade"><h3 style="margin:0 0 4px">Monthly goals</h3><p class="muted" style="margin:0 0 14px;font-size:14px" id="goalSub">Set a target for the latest month.</p>
+      <div id="goalList"></div>
+      <div class="row" style="margin-top:14px;align-items:flex-end">
+        <div class="field" style="margin:0;flex:0 0 120px"><label for="gMetric">Metric</label><select id="gMetric"><option value="profit">Profit</option><option value="sales">Sales</option></select></div>
+        <div class="field" style="margin:0;flex:1;min-width:120px"><label for="gAmount">Target (₹)</label><input id="gAmount" type="number" min="1" step="1000" placeholder="e.g. 500000"></div>
+        <button class="btn sm" id="gSave">Set goal</button></div>
+      <div id="goalErr" class="err" hidden style="margin-top:12px"></div>
+    </div>
+    <div class="card fade"><h3 style="margin:0 0 4px">Case notes</h3><p class="muted" style="margin:0 0 12px;font-size:14px">Jot down hunches and follow-ups for this dataset.</p>
+      <div class="field" style="margin:0"><textarea id="noteText" maxlength="500" placeholder="e.g. Ask the South team about the laptop discount campaign…" style="min-height:76px"></textarea><div class="hint2" id="noteCount">0 / 500</div></div>
+      <div class="row" style="margin-top:8px"><button class="btn sm" id="noteAdd">＋ Add note</button></div>
+      <ul class="notes" id="noteList"></ul></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/lab.js') }}"></script>{% endblock %}

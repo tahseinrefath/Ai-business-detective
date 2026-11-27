@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard · AI Business Detective</title>
+  <meta name="description" content="Upload sales data and find out which products and regions drove a change, with evidence-based explanations.">
+  <meta name="csrf-token" content="">
+  <meta name="theme-color" content="#050507">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050507%22/><circle cx=%2227%22 cy=%2727%22 r=%2216%22 fill=%22none%22 stroke=%22%23c9cdd3%22 stroke-width=%226%22/><path d=%22M40 40l16 16%22 stroke=%22%23ff1a40%22 stroke-width=%227%22 stroke-linecap=%22round%22/></svg>">
+  <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/vendor/plotly.min.js" charset="utf-8"></script>
+</head>
+<body data-uid="0" data-authed="0" data-page="dashboard">
+  <canvas id="bgnet" aria-hidden="true"></canvas>
+  <nav class="nav"><div class="wrap">
+    <a class="brand" href="/" aria-label="AI Business Detective home">
+      <svg viewBox="0 0 64 64" width="32" height="32"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="var(--a1)"/><stop offset=".6" stop-color="var(--a2)"/><stop offset="1" stop-color="var(--a3)"/></linearGradient></defs>
+        <circle cx="27" cy="27" r="17" fill="none" stroke="url(#lg)" stroke-width="6"/><path d="M40 40l16 16" stroke="url(#lg)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M18 31l6-6 5 4 7-8" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>AI Business <b class="grad">Detective</b></span></a>
+    
+    <div class="links" id="navLinks" style="display:none">
+      <a href="/" class="nav-home">Home</a>
+      <a href="/dashboard" class="nav-dashboard">Dashboard</a>
+      <a href="/investigation" class="nav-investigation">Investigate</a>
+      <a href="/lab" class="nav-lab">Lab</a>
+      <a href="/data" class="nav-data">Data</a>
+      <a href="/reports" class="nav-reports">Reports</a>
+    </div>
+
+    <div class="badge-ds" id="dsBadge" hidden>No dataset</div>
+
+    <div class="nav-right" id="navRight">
+      <button class="nav-search" id="palBtn" aria-label="Open command menu">⌘ <span>Quick actions</span> <span class="kbd">Ctrl K</span></button>
+
+      <div id="navAuthed" style="display:none;align-items:center;gap:12px">
+        <a class="lvl" id="navLvl" href="/profile" title="Your detective rank">Lv <b id="navLvlNum">1</b> · <span id="navLvlTitle">Rookie</span></a>
+        <div class="usermenu">
+          <button id="userBtn" aria-label="Account menu" aria-haspopup="true">
+            <span class="avatar" id="navAvatarWrap"><span id="navInitials">?</span></span></button>
+          <div class="menu" id="userMenu" role="menu">
+            <div class="who"><b id="navWhoName">User</b><span id="navWhoEmail">user@example.com</span></div>
+            <a href="/profile">👤 My profile</a><a href="/lab">🧪 What-if lab</a><a href="/reports">📄 My reports</a>
+            <button id="logoutBtn">🚪 Sign out</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="navAnon" style="display:flex;align-items:center;gap:8px">
+        <a class="btn ghost sm" href="/login">Sign in</a><a class="btn sm" href="/register">Get started</a>
+      </div>
+    </div>
+  </div></nav>
+  <main class="wrap"><div class="page-head between"><div><h2>Performance <span class="grad">dashboard</span></h2><p id="sub">Loading…</p></div>
+  <div class="row"><a class="btn ghost sm" id="expCsv" href="#">⬇ Export cleaned CSV</a><a class="btn sm" href="/investigation">🔍 Investigate changes</a></div></div>
+<div id="empty" class="card empty" hidden><div class="ico">🕵️</div><h3>No dataset loaded</h3><p class="muted">Upload a file or open the demo case to see your dashboard.</p><a class="btn" href="/">Go to upload</a></div>
+<div id="content" hidden>
+  <div class="card filters" id="filters">
+    <label>Region<select id="fRegion"><option>All</option></select></label>
+    <label>Category<select id="fCategory"><option>All</option></select></label>
+    <label>Product<select id="fProduct"><option>All</option></select></label>
+    <label>From<input type="date" id="fStart"></label><label>To<input type="date" id="fEnd"></label>
+    <button class="btn ghost sm" id="fReset">↺ Reset</button><span class="muted" id="fCount" style="margin-left:auto;font-size:13px"></span>
+  </div>
+  <div class="pulse" id="pulse"></div>
+  <div class="card glow" id="healthCard" style="margin-top:18px"><div class="between"><h4 style="margin:0;font-size:16px;font-family:var(--display)">Business health score</h4><span class="muted" style="font-size:12.5px">Transparent formula · not an industry standard</span></div>
+    <div class="gauge" id="healthBody" style="margin-top:14px"></div></div>
+  <div class="grid g4" id="kpis" style="margin-top:18px"></div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card chart"><h4>Monthly sales, profit & margin</h4><div class="hint">Bars: totals · line: profit margin %</div><div id="cMonthly"></div></div>
+    <div class="card chart"><h4>Daily sales trend</h4><div class="hint">Faint area is each day; bright line is the 7-day average.</div><div id="cDaily"></div></div>
+    <div class="card chart"><div class="between"><h4>Product performance</h4><div class="seg" data-target="products"><button data-m="profit" class="on">Profit</button><button data-m="sales">Sales</button></div></div><div id="cProducts"></div></div>
+    <div class="card chart"><div class="between"><h4>Regional performance</h4><div class="seg" data-target="regions"><button data-m="profit" class="on">Profit</button><button data-m="sales">Sales</button></div></div><div id="cRegions"></div></div>
+    <div class="card chart"><h4>Profit by region × product</h4><div class="hint">Darker cells earn more profit. Spot weak combinations fast.</div><div id="cHeat"></div></div>
+    <div class="card chart"><h4>Category share of profit</h4><div class="hint">Hover a slice for exact figures.</div><div id="cCat"></div></div>
+    <div class="card chart" id="discCard"><h4>Margin by discount level</h4><div class="hint">Do bigger discounts leave less profit per rupee sold?</div><div id="cDisc"></div></div>
+    <div class="card chart" id="fcCard"><h4>Next-month trend projection</h4><div class="hint">A straight-line extension of past months.</div><div id="fcBody"></div></div>
+  </div>
+  <div class="card" style="margin-top:18px" id="quality"></div>
+</div></main>
+  <footer class="wrap">Turning business data into actionable insights.<br>Contributors show <b>where</b> a change happened — not proof of <b>why</b>. Sample data is illustrative only.</footer>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/js/config.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

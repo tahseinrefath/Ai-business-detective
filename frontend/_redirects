@@ -1,0 +1,16 @@
+# Netlify Proxy redirects for FastAPI backend API
+/api/*     https://your-fastapi-backend.onrender.com/api/:splat  200!
+/avatar/*  https://your-fastapi-backend.onrender.com/avatar/:splat  200!
+
+# Clean URLs
+/login          /login.html          200
+/register       /register.html       200
+/dashboard      /dashboard.html      200
+/investigation  /investigation.html  200
+/lab            /lab.html            200
+/data           /data.html           200
+/reports        /reports.html        200
+/profile        /profile.html        200
+
+# Custom 404
+/*              /404.html            404

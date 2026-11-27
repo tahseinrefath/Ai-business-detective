@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sign in · AI Business Detective</title>
+  <meta name="description" content="Upload sales data and find out which products and regions drove a change, with evidence-based explanations.">
+  <meta name="csrf-token" content="">
+  <meta name="theme-color" content="#050507">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23050507%22/><circle cx=%2227%22 cy=%2727%22 r=%2216%22 fill=%22none%22 stroke=%22%23c9cdd3%22 stroke-width=%226%22/><path d=%22M40 40l16 16%22 stroke=%22%23ff1a40%22 stroke-width=%227%22 stroke-linecap=%22round%22/></svg>">
+  <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/style.css">
+  
+</head>
+<body data-uid="0" data-authed="0" data-page="auth">
+  <canvas id="bgnet" aria-hidden="true"></canvas>
+  <nav class="nav"><div class="wrap">
+    <a class="brand" href="/" aria-label="AI Business Detective home">
+      <svg viewBox="0 0 64 64" width="32" height="32"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="var(--a1)"/><stop offset=".6" stop-color="var(--a2)"/><stop offset="1" stop-color="var(--a3)"/></linearGradient></defs>
+        <circle cx="27" cy="27" r="17" fill="none" stroke="url(#lg)" stroke-width="6"/><path d="M40 40l16 16" stroke="url(#lg)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M18 31l6-6 5 4 7-8" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>AI Business <b class="grad">Detective</b></span></a>
+    
+    <div class="links" id="navLinks" style="display:none">
+      <a href="/" class="nav-home">Home</a>
+      <a href="/dashboard" class="nav-dashboard">Dashboard</a>
+      <a href="/investigation" class="nav-investigation">Investigate</a>
+      <a href="/lab" class="nav-lab">Lab</a>
+      <a href="/data" class="nav-data">Data</a>
+      <a href="/reports" class="nav-reports">Reports</a>
+    </div>
+
+    <div class="badge-ds" id="dsBadge" hidden>No dataset</div>
+
+    <div class="nav-right" id="navRight">
+      <button class="nav-search" id="palBtn" aria-label="Open command menu">⌘ <span>Quick actions</span> <span class="kbd">Ctrl K</span></button>
+
+      <div id="navAuthed" style="display:none;align-items:center;gap:12px">
+        <a class="lvl" id="navLvl" href="/profile" title="Your detective rank">Lv <b id="navLvlNum">1</b> · <span id="navLvlTitle">Rookie</span></a>
+        <div class="usermenu">
+          <button id="userBtn" aria-label="Account menu" aria-haspopup="true">
+            <span class="avatar" id="navAvatarWrap"><span id="navInitials">?</span></span></button>
+          <div class="menu" id="userMenu" role="menu">
+            <div class="who"><b id="navWhoName">User</b><span id="navWhoEmail">user@example.com</span></div>
+            <a href="/profile">👤 My profile</a><a href="/lab">🧪 What-if lab</a><a href="/reports">📄 My reports</a>
+            <button id="logoutBtn">🚪 Sign out</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="navAnon" style="display:flex;align-items:center;gap:8px">
+        <a class="btn ghost sm" href="/login">Sign in</a><a class="btn sm" href="/register">Get started</a>
+      </div>
+    </div>
+  </div></nav>
+  <main class="wrap"><section class="auth">
+  <aside class="auth-art">
+    <span class="eyebrow"><i></i> Your private case room</span>
+    <h2>Solve the case<br>behind your <span class="grad">numbers</span>.</h2>
+    <ul>
+      <li><i>🔐</i><div><b>Your data stays yours</b>Every dataset is tied to your account. Nobody else can open it.</div></li>
+      <li><i>🧪</i><div><b>Test ideas before you try them</b>What-if lab, monthly goals and case notes — all saved to your profile.</div></li>
+      <li><i>🏅</i><div><b>Earn your detective rank</b>Collect badges as you upload, investigate and report.</div></li>
+    </ul>
+    <svg class="float" viewBox="0 0 300 220" fill="none" aria-hidden="true"><defs><linearGradient id="ag" x1="0" x2="1"><stop offset="0" stop-color="var(--a1)"/><stop offset="1" stop-color="var(--a3)"/></linearGradient></defs>
+      <rect x="20" y="130" width="34" height="70" rx="8" fill="var(--a1)" opacity=".7"/><rect x="70" y="95" width="34" height="105" rx="8" fill="var(--a2)" opacity=".8"/>
+      <rect x="120" y="60" width="34" height="140" rx="8" fill="var(--a3)" opacity=".85"/><path d="M10 120 C70 90 110 60 170 70 S250 30 290 20" stroke="url(#ag)" stroke-width="5" stroke-linecap="round"/></svg>
+  </aside>
+
+  <div class="auth-form">
+    <div class="auth-box fade">
+      <h1>Welcome back</h1><p class="sub">Sign in to continue your investigation.</p>
+      <div id="formErr" class="err" hidden role="alert"></div>
+      <form id="authForm" novalidate autocomplete="on" data-mode="login" data-next="/dashboard">
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="120" placeholder="you@example.com" required></div>
+        <div class="field"><label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" maxlength="128" placeholder="Your password" required>
+          <button type="button" class="eye" id="eye" aria-label="Show password">👁</button>
+        </div>
+        <button class="btn" id="submitBtn" style="width:100%;justify-content:center;padding:15px" type="submit">Sign in</button>
+      </form>
+      <p class="swap">
+        New here? <a href="/register">Create an account</a>
+      </p>
+    </div>
+  </div>
+</section></main>
+  <footer class="wrap">Turning business data into actionable insights.<br>Contributors show <b>where</b> a change happened — not proof of <b>why</b>. Sample data is illustrative only.</footer>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/js/config.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

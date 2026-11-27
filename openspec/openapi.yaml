@@ -1,0 +1,1146 @@
+openapi: 3.1.0
+info:
+  title: AI Business Detective API
+  description: Evidence-first business analytics API (FastAPI + Pandas + scikit-learn).
+  version: 6.0.0
+paths:
+  /api/auth/register:
+    post:
+      tags:
+      - auth
+      - profile
+      summary: Register
+      operationId: register_api_auth_register_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/login:
+    post:
+      tags:
+      - auth
+      - profile
+      summary: Login
+      operationId: login_api_auth_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/logout:
+    post:
+      tags:
+      - auth
+      - profile
+      summary: Logout
+      operationId: logout_api_auth_logout_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/auth/session:
+    get:
+      tags:
+      - auth
+      - profile
+      summary: Session Info
+      operationId: session_info_api_auth_session_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/health:
+    get:
+      tags:
+      - auth
+      - profile
+      summary: Health
+      operationId: health_api_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /api/profile:
+    get:
+      tags:
+      - auth
+      - profile
+      summary: Get Profile
+      operationId: get_profile_api_profile_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    put:
+      tags:
+      - auth
+      - profile
+      summary: Update Profile
+      operationId: update_profile_api_profile_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/profile/password:
+    post:
+      tags:
+      - auth
+      - profile
+      summary: Change Password
+      operationId: change_password_api_profile_password_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChangeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/profile/avatar:
+    post:
+      tags:
+      - auth
+      - profile
+      summary: Upload Avatar
+      operationId: upload_avatar_api_profile_avatar_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_avatar_api_profile_avatar_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+      - auth
+      - profile
+      summary: Delete Avatar
+      operationId: delete_avatar_api_profile_avatar_delete
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /avatar/me:
+    get:
+      tags:
+      - auth
+      - profile
+      summary: My Avatar
+      operationId: my_avatar_avatar_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            image/png: {}
+  /api/profile/delete:
+    post:
+      tags:
+      - auth
+      - profile
+      summary: Delete Account
+      operationId: delete_account_api_profile_delete_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAccountRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/goals:
+    get:
+      tags:
+      - lab
+      summary: Goals List
+      operationId: goals_list_api_goals_get
+      parameters:
+      - name: dataset
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Dataset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+      - lab
+      summary: Goals Set
+      operationId: goals_set_api_goals_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoalSetRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+      - lab
+      summary: Goals Delete
+      operationId: goals_delete_api_goals_delete
+      parameters:
+      - name: dataset
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dataset
+      - name: metric
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/GoalDeleteRequest'
+              - type: 'null'
+              title: D
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/notes:
+    get:
+      tags:
+      - lab
+      summary: Notes List
+      operationId: notes_list_api_notes_get
+      parameters:
+      - name: dataset
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Dataset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+      - lab
+      summary: Notes Add
+      operationId: notes_add_api_notes_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteCreateRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/notes/{note_id}:
+    delete:
+      tags:
+      - lab
+      summary: Notes Delete
+      operationId: notes_delete_api_notes__note_id__delete
+      parameters:
+      - name: note_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Note Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/whatif/segments:
+    get:
+      tags:
+      - lab
+      summary: Whatif Segments
+      operationId: whatif_segments_api_whatif_segments_get
+      parameters:
+      - name: dataset
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Dataset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/whatif:
+    post:
+      tags:
+      - lab
+      summary: Whatif Run
+      operationId: whatif_run_api_whatif_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WhatIfRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/dashboard:
+    get:
+      tags:
+      - dashboard
+      summary: Api Dashboard
+      operationId: api_dashboard_api_dashboard_get
+      parameters:
+      - name: dataset
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Dataset
+      - name: region
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Region
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+      - name: product
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Product
+      - name: start
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Start
+      - name: end
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: End
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/preview:
+    get:
+      tags:
+      - data
+      summary: Preview
+      operationId: preview_api_preview_get
+      parameters:
+      - name: dataset
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Dataset
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Q
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          default: order_date
+          title: Sort
+      - name: dir
+        in: query
+        required: false
+        schema:
+          type: string
+          default: desc
+          title: Dir
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 15
+          title: Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/export/{ds}/clean.csv:
+    get:
+      tags:
+      - data
+      summary: Export Clean
+      operationId: export_clean_api_export__ds__clean_csv_get
+      parameters:
+      - name: ds
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Ds
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/csv: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/export/{ds}/contributors.csv:
+    get:
+      tags:
+      - data
+      summary: Export Contributors
+      operationId: export_contributors_api_export__ds__contributors_csv_get
+      parameters:
+      - name: ds
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Ds
+      - name: metric
+        in: query
+        required: false
+        schema:
+          type: string
+          default: profit
+          title: Metric
+      - name: previous
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      - name: current
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/csv: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/options:
+    get:
+      tags:
+      - data
+      summary: Options
+      operationId: options_api_options_get
+      parameters:
+      - name: dataset
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Dataset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/upload:
+    post:
+      tags:
+      - upload
+      summary: Upload
+      operationId: upload_api_upload_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_api_upload_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/upload/map:
+    post:
+      tags:
+      - upload
+      summary: Upload Mapped
+      description: 'Second step: the user tells us which column is which.'
+      operationId: upload_mapped_api_upload_map_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColumnMappingRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/sample:
+    post:
+      tags:
+      - upload
+      summary: Sample
+      operationId: sample_api_sample_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SampleRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/datasets:
+    get:
+      tags:
+      - upload
+      summary: Datasets
+      operationId: datasets_api_datasets_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/investigate:
+    post:
+      tags:
+      - investigation
+      summary: Api Investigate
+      operationId: api_investigate_api_investigate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvestigateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/ask:
+    post:
+      tags:
+      - investigation
+      summary: Api Ask
+      operationId: api_ask_api_ask_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AskRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/report/{ds_id}:
+    post:
+      tags:
+      - reports
+      summary: Create Report
+      operationId: create_report_api_report__ds_id__post
+      parameters:
+      - name: ds_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Ds Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+      - reports
+      summary: Get Report
+      operationId: get_report_api_report__ds_id__get
+      parameters:
+      - name: ds_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Ds Id
+      - name: download
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/html: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    AskRequest:
+      properties:
+        dataset:
+          type: string
+          title: Dataset
+          default: ''
+        metric:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+        current:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current
+        question:
+          type: string
+          title: Question
+          default: ''
+      type: object
+      title: AskRequest
+    Body_upload_api_upload_post:
+      properties:
+        file:
+          anyOf:
+          - type: string
+            contentMediaType: application/octet-stream
+          - type: 'null'
+          title: File
+      type: object
+      title: Body_upload_api_upload_post
+    Body_upload_avatar_api_profile_avatar_post:
+      properties:
+        avatar:
+          anyOf:
+          - type: string
+            contentMediaType: application/octet-stream
+          - type: 'null'
+          title: Avatar
+      type: object
+      title: Body_upload_avatar_api_profile_avatar_post
+    ColumnMappingRequest:
+      properties:
+        token:
+          type: string
+          title: Token
+          default: ''
+        filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Filename
+        mapping:
+          additionalProperties:
+            anyOf:
+            - type: string
+            - type: 'null'
+          type: object
+          title: Mapping
+          default: {}
+      type: object
+      title: ColumnMappingRequest
+    DeleteAccountRequest:
+      properties:
+        password:
+          type: string
+          title: Password
+          default: ''
+      type: object
+      title: DeleteAccountRequest
+    GoalDeleteRequest:
+      properties:
+        dataset:
+          type: string
+          title: Dataset
+          default: ''
+        metric:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric
+      type: object
+      title: GoalDeleteRequest
+    GoalSetRequest:
+      properties:
+        dataset:
+          type: string
+          title: Dataset
+          default: ''
+        metric:
+          type: string
+          title: Metric
+          default: ''
+        amount:
+          title: Amount
+      type: object
+      title: GoalSetRequest
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          const: ok
+          title: Status
+          default: ok
+      type: object
+      title: HealthResponse
+    InvestigateRequest:
+      properties:
+        dataset:
+          type: string
+          title: Dataset
+          default: ''
+        metric:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+        current:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current
+      type: object
+      title: InvestigateRequest
+    LoginRequest:
+      properties:
+        email:
+          type: string
+          title: Email
+          default: ''
+        password:
+          type: string
+          title: Password
+          default: ''
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+      type: object
+      title: LoginRequest
+    NoteCreateRequest:
+      properties:
+        dataset:
+          type: string
+          title: Dataset
+          default: ''
+        text:
+          type: string
+          title: Text
+          default: ''
+      type: object
+      title: NoteCreateRequest
+    PasswordChangeRequest:
+      properties:
+        current:
+          type: string
+          title: Current
+          default: ''
+        new:
+          type: string
+          title: New
+          default: ''
+      type: object
+      title: PasswordChangeRequest
+    ProfileUpdateRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        job_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Title
+        company:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Company
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        bio:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bio
+      type: object
+      title: ProfileUpdateRequest
+    RegisterRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          default: ''
+        email:
+          type: string
+          title: Email
+          default: ''
+        password:
+          type: string
+          title: Password
+          default: ''
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+      type: object
+      title: RegisterRequest
+    ReportCreateRequest:
+      properties:
+        metric:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+        current:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current
+      type: object
+      title: ReportCreateRequest
+    SampleRequest:
+      properties:
+        kind:
+          type: string
+          title: Kind
+          default: clean
+      type: object
+      title: SampleRequest
+    WhatIfRequest:
+      properties:
+        dataset:
+          type: string
+          title: Dataset
+          default: ''
+        segment:
+          type: string
+          title: Segment
+          default: ''
+        commit:
+          type: boolean
+          title: Commit
+          default: false
+        order_change_pct:
+          title: Order Change Pct
+          default: 0
+        price_change_pct:
+          title: Price Change Pct
+          default: 0
+        margin_change_pts:
+          title: Margin Change Pts
+          default: 0
+      type: object
+      title: WhatIfRequest
+    ErrorResponse:
+      properties:
+        error:
+          title: Error
+          type: string
+        login_required:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          default: null
+          title: Login Required
+      required:
+      - error
+      title: ErrorResponse
+      type: object

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero"><div class="laser-beam" aria-hidden="true"></div>
+  <div class="fade">
+    <span class="eyebrow"><i></i> Evidence first · no guessed causes</span>
+    <h1>Your sales dipped.<br><span class="grad">Now find out</span> <span class="hot">why.</span></h1>
+    <p class="lead">AI Business Detective cleans your sales file, spots unusual changes, and shows exactly which products and regions moved the numbers — then explains it in plain English, using only what the data supports.</p>
+    <div class="row" style="margin-top:26px">
+      {% if me %}<button class="btn" id="btnSample">🔎 Open the demo case</button>
+      <button class="btn ghost" id="btnDirty">🧹 See it fix messy data</button>
+      {% else %}<a class="btn" href="/register">🔴 Create your free account</a><a class="btn ghost" href="/login">Sign in</a>{% endif %}
+    </div>
+    <div class="stats">
+      <div class="card"><b data-count="10">0</b><span>analysis tools</span></div>
+      <div class="card"><b data-count="48">0</b><span>automated tests</span></div>
+      <div class="card"><b>0 ₹</b><span>to run locally</span></div>
+    </div>
+  </div>
+  <div class="fade" style="animation-delay:.15s">
+    <div class="card glow hero-card">
+      <div class="between"><b>Profit · Sep → Oct</b><span class="tag high">−22.7%</span></div>
+      <div class="mini-kpis" style="margin-top:12px">
+        <div class="mini"><small>Biggest contributor</small><b>Laptop · South</b></div><div class="mini"><small>Orders in segment</small><b class="down">−72%</b></div>
+        <div class="mini"><small>Avg discount</small><b class="down">+11.7 pts</b></div><div class="mini"><small>Unusual days</small><b>3 flagged</b></div>
+      </div>
+      <svg class="spark" viewBox="0 0 400 90" preserveAspectRatio="none"><defs><linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#c9cdd3"/><stop offset="1" stop-color="#ff1a40"/></linearGradient></defs>
+        <path d="M0 60 C40 55 60 30 100 38 S160 62 200 42 S270 14 310 52 S370 70 400 78" fill="none" stroke="url(#sg)" stroke-width="4" stroke-linecap="round"/></svg>
+      <span class="float-chip c1">🚨 Spike on 21 Sep</span><span class="float-chip c2">✅ Evidence-based</span>
+    </div>
+  </div>
+</section>
+
+{% if me %}<section class="card" style="margin-top:34px" id="upload">
+  <div class="between"><div><h3 style="margin:0;font-size:20px">Start with your own data</h3><span class="muted">Up to 50 MB · everything stays on your computer</span></div></div>
+  <div class="row" style="margin-top:12px" id="fmtChips"><span class="chip">📗 Excel .xlsx .xlsm .xls</span><span class="chip">📄 CSV / TSV / TXT</span><span class="chip">📕 PDF tables</span><span class="chip">📊 Power BI .pbix</span><span class="chip">🧾 JSON</span><span class="chip">📘 OpenDocument .ods</span></div>
+  <div class="drop" id="drop" style="margin-top:16px">
+    <div class="ico">📂</div><b>Drop a file here, or click to browse</b><div class="muted" style="font-size:13px;margin-top:2px">Excel · CSV · PDF · Power BI · JSON · ODS</div>
+    <p class="muted" style="margin:8px 0 0">Columns: <code>order_date</code> <code>product</code> <code>category</code> <code>region</code> <code>quantity</code> <code>sales</code> <code>profit</code> <span class="muted">(optional <code>discount_pct</code>)</span></p>
+    <input type="file" id="file" accept=".csv,.tsv,.txt,.xlsx,.xlsm,.xls,.ods,.json,.pdf,.pbix" hidden>
+  </div>
+  <div id="uploadMsg" style="margin-top:16px"></div>
+</section>{% else %}<section class="card glow" style="margin-top:34px;text-align:center;padding:38px 24px"><h3 style="margin:0 0 6px;font-size:22px">Sign in to start investigating</h3>
+  <p class="muted" style="margin:0 0 18px">Your datasets, reports, notes and goals are private to your account.</p>
+  <div class="row" style="justify-content:center"><a class="btn" href="/register">Create account</a><a class="btn ghost" href="/login">Sign in</a></div></section>{% endif %}
+
+<h2 class="sec reveal">Everything an analyst does by hand — <span class="grad">automated</span></h2>
+<p class="sec-sub reveal">From a raw spreadsheet to a defensible explanation in a few clicks.</p>
+<div class="bento">
+  <div class="card feat hover reveal b2"><div class="ico">🧹</div><h3>Reads almost any file</h3><p>Excel (even with title rows and many sheets), CSV, PDF tables, Power BI and JSON. Then cleans it without guessing — every fix is listed.</p></div>
+  <div class="card feat hover reveal b4"><div class="ico">🔍</div><h3>Finds who moved the number</h3><p>Ranks contributors by product, region, category and product × region, then looks inside the biggest one: did orders fall, did prices drop, did discounts or margins change?</p></div>
+  <div class="card feat hover reveal b3"><div class="ico">🎛️</div><h3>Interactive dashboard</h3><p>Filter by region, category, product and dates. Heatmaps, trends, margin-by-discount and a simple next-month projection.</p></div>
+  <div class="card feat hover reveal b3"><div class="ico">🚨</div><h3>Unusual-day detection</h3><p>Robust statistics plus Isolation Forest flag spikes and dips — described as "unusual", never as "wrong".</p></div>
+  <div class="card feat hover reveal b2"><div class="ico">💬</div><h3>Ask in plain English</h3><p>"Why did profit drop?" gets an answer built only from calculated figures.</p></div>
+  <div class="card feat hover reveal b2"><div class="ico">🗂️</div><h3>Data explorer</h3><p>Search, sort and page through your cleaned data. Export it as CSV.</p></div>
+  <div class="card feat hover reveal b2"><div class="ico">📄</div><h3>Shareable reports</h3><p>One-click HTML report you can print to PDF, plus contributor tables as CSV.</p></div>
+
+  <div class="card feat hover reveal b3"><div class="ico">🧪</div><h3>What-if lab</h3><p>Nudge orders, price or margin for one product-region segment and see the profit impact instantly — an illustration, never a forecast.</p></div>
+  <div class="card feat hover reveal b3"><div class="ico">❤</div><h3>Business health score</h3><p>A 0–100 score from growth, profitability, stability and data quality. The formula is shown, so you can argue with it.</p></div>
+  <div class="card feat hover reveal b2"><div class="ico">🎯</div><h3>Goals &amp; case notes</h3><p>Set a monthly target, see the daily pace you need, and keep notes against each dataset.</p></div>
+  <div class="card feat hover reveal b2"><div class="ico">🔐</div><h3>Private accounts</h3><p>Sign-in, profile photo and your own space. Datasets are tied to you — nobody else can open them.</p></div>
+  <div class="card feat hover reveal b2"><div class="ico">🏅</div><h3>Detective ranks</h3><p>Earn XP and badges as you upload, investigate and report. Press <span class="kbd">Ctrl K</span> for quick actions.</p></div>
+</div>
+
+<h2 class="sec reveal">How it works</h2>
+<div class="grid g4 steps" style="margin-top:26px">
+  <div class="card reveal"><b>Upload</b><p class="muted" style="margin:6px 0 0">Excel, CSV, PDF, Power BI or JSON.</p></div>
+  <div class="card reveal"><b>Clean</b><p class="muted" style="margin:6px 0 0">Every fix is documented and counted.</p></div>
+  <div class="card reveal"><b>Investigate</b><p class="muted" style="margin:6px 0 0">Pandas calculates contributors and drivers.</p></div>
+  <div class="card reveal"><b>Explain</b><p class="muted" style="margin:6px 0 0">Plain-English findings, charts and a report.</p></div>
+</div>
+
+<h2 class="sec reveal">Good questions</h2>
+<div style="margin-top:20px;max-width:820px" class="reveal">
+  <details class="faq"><summary>Does the AI make up causes?</summary><p>No. Python and pandas do every calculation. The explanation only describes those numbers, and it states that a contributor shows <i>where</i> a change happened, not proof of <i>why</i>.</p></details>
+  <details class="faq"><summary>Which file types work, and what are the limits?</summary><p>Excel, CSV/TSV, JSON and OpenDocument work best. PDFs must contain real text tables — scanned images cannot be read. Power BI .pbix files work when the data is imported into the file; live-connection or DirectQuery reports hold no data, so export a table to CSV/Excel instead.</p></details>
+  <details class="faq"><summary>Is my data uploaded anywhere?</summary><p>No. The app runs on your own computer and stores cleaned data in a local folder. An optional LLM key sends only calculated summary figures — never raw rows.</p></details>
+  <details class="faq"><summary>What if my latest month is incomplete?</summary><p>The app detects partial months and warns you, so a half-finished month isn't mistaken for a real decline.</p></details>
+  <details class="faq"><summary>What does the forecast mean?</summary><p>It extends the monthly trend in a straight line. It is a rough guide, not a prediction, and is labelled that way.</p></details>
+</div>
+
+<section class="card glow cta reveal"><h2>Ready to <span class="grad">crack the case</span>?</h2><p class="muted">Open the demo and watch it find a planted decline.</p>
+  {% if me %}<button class="btn" onclick="document.getElementById('btnSample').click()">🔎 Open the demo case</button>{% else %}<a class="btn" href="/register">Create your free account</a>{% endif %}</section>
+{% endblock %}
+{% block scripts %}{% if me %}<script src="{{ url_for('static', filename='js/upload.js') }}"></script>{% endif %}{% endblock %}

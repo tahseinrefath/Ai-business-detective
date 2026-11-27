@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+
+# Local data and generated files
+uploads/*
+!uploads/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+reports/*
+!reports/.gitkeep
+logs/*
+!logs/.gitkeep
+*.log
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Accounts, avatars and secrets
+data/app.db
+data/.secret_key
+data/avatars/*
+!data/avatars/.gitkeep
+
+# Netlify & Next.js frontend (web/)
+.netlify/
+**/.netlify/
+web/node_modules/
+web/.next/
+web/out/
+web/build/
+web/next-env.d.ts
+web/*.tsbuildinfo
+web/npm-debug.log*

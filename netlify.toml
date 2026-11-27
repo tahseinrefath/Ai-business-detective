@@ -1,0 +1,35 @@
+[build]
+  base = "web"
+  command = "NEXT_OUTPUT_EXPORT=true npm run build"
+  publish = "out"
+
+# Proxy API and avatar requests to your hosted FastAPI backend
+# Replace https://your-fastapi-backend.onrender.com with your actual Render/Railway backend URL:
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-fastapi-backend.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/avatar/*"
+  to = "https://your-fastapi-backend.onrender.com/avatar/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

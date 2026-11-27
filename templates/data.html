@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Data explorer · AI Business Detective{% endblock %}
+{% block content %}
+<div class="page-head between"><div><h2>Data <span class="grad">explorer</span></h2><p id="sub">Browse the cleaned data the analysis is built on.</p></div>
+  <a class="btn ghost sm" id="expCsv" href="#">⬇ Export cleaned CSV</a></div>
+<div id="empty" class="card empty" hidden><div class="ico">🗂️</div><h3>No dataset loaded</h3><a class="btn" href="/">Go to upload</a></div>
+<div id="content" hidden>
+  <div class="card" style="margin-top:16px">
+    <div class="between" style="margin-bottom:14px"><input type="text" id="search" placeholder="🔎 Search product, category or region…" style="min-width:300px"><span class="muted" id="total"></span></div>
+    <div class="tablewrap"><table class="t" id="tbl"></table></div>
+    <div class="pager"><button class="btn ghost sm" id="prev">← Prev</button><span id="pg"></span><button class="btn ghost sm" id="next">Next →</button></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/data.js') }}"></script>{% endblock %}
